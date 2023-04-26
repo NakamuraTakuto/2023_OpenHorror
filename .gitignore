@@ -70,3 +70,7 @@ crashlytics-build.properties
 # Temporary auto-generated Android Assets
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
+2023_OpenHorror/ProjectSettings/PresetManager.asset
+2023_OpenHorror/UserSettings/
+2023_OpenHorror/ProjectSettings/
+2023_OpenHorror/Library/PackageCache/com.unity.visualscripting@1.7.8/Runtime/VisualScripting.Flow/Framework/Events/Physics/OnCollisionStay.cs
