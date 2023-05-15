@@ -18,4 +18,11 @@ public abstract class ItemBase : MonoBehaviour
     }
 
     public abstract void Action(); //インベントリで選択された時の処理
+
+    public void ItemOFF() //Itemがインベントリに追加された時に実行
+    {
+        //ColliderとRendererをFalseにして判定の取得と描画を止めている
+        GetComponent<Collider>().enabled = false;
+        GetComponent<MeshRenderer>().enabled = false;
+    }
 }
