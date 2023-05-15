@@ -19,7 +19,12 @@ public class PlayerMove : MonoBehaviour
     {
         float h = Input.GetAxisRaw("Horizontal");
         float v = Input.GetAxisRaw("Vertical");
-        Vector3 dir = transform.forward * v + transform.right * h;
+        Vector3 dir = Vector3.forward * v + Vector3.right * h;
+
+        if (dir != Vector3.zero)
+        {
+            gameObject.transform.forward = dir;
+        }
 
         _rb.velocity = dir.normalized * _moveSpeed;
     }
