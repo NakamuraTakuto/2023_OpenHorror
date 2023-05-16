@@ -9,9 +9,18 @@ public class PlayerItemManagement : MonoBehaviour
     [SerializeField] GameObject _itemCanvas;
     [Header("ItemButtonPreFab")]
     [SerializeField] GameObject _itemButton;
+    [Header("Itemが取得可能状態にあるときに表示されるpanel")]
+    [SerializeField] GameObject _itemPanel;
     [SerializeField] List<GameObject> _itemList = new();
     bool _trrigerPrime = false;
 
+    private void Start()
+    {
+        if (_itemCanvas == null || _itemButton == null || _itemPanel == null)
+        {
+            Debug.Log("アタッチされていない箇所があります");
+        }
+    }
 
     //void ClickProcess()//左クリック時の処理
     //{
@@ -37,6 +46,7 @@ public class PlayerItemManagement : MonoBehaviour
     {
         if (_hitObject.TryGetComponent<ItemBase>(out ItemBase itemBase) && _trrigerPrime)
         {
+            _itemPanel.SetActive(true);
             //ItemBoxの子オブジェクトとしてButtonを生成する
             var InstantiateObj = Instantiate(_itemButton, _itemCanvas.transform);
             //生成したButtonのOnClickにItemBaseの処理を追加している
@@ -76,8 +86,14 @@ public class PlayerItemManagement : MonoBehaviour
             KeyProcess(other.gameObject);
         }
     }
+
     private void OnTriggerExit(Collider other)
     {
         _trrigerPrime = false;
+
+        if(_itemPanel.activeSelf)
+        {
+            _itemPanel.SetActive(false);
+        }
     }
 }
