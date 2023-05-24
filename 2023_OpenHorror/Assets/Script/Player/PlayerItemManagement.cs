@@ -15,6 +15,7 @@ public class PlayerItemManagement : MonoBehaviour
     [SerializeField] GameObject _itemPanel;
     [SerializeField] List<GameObject> _itemList = new();
     bool _trrigerPrime = false;
+    GameObject _hitItem;
 
     private void Start()
     {
@@ -48,8 +49,7 @@ public class PlayerItemManagement : MonoBehaviour
     {
         if (_hitObject.TryGetComponent<ItemBase>(out ItemBase itemBase) && _trrigerPrime)
         {
-            _itemPanel.GetComponent<Text>().text = $"F {itemBase.GetItemName}";
-            _itemPanel.SetActive(true);
+            //_itemPanel.GetComponent<Text>().text = $"F {itemBase.GetItemName}";
             //ItemBoxの子オブジェクトとしてButtonを生成する
             var InstantiateObj = Instantiate(_itemButton, _itemBoxCanvas.transform);
             //生成したButtonのOnClickにItemBaseの処理を追加している
@@ -57,6 +57,7 @@ public class PlayerItemManagement : MonoBehaviour
             InstantiateObj.GetComponentInChildren<Text>().text = itemBase.GetItemName;
             _itemList.Add(InstantiateObj);
             itemBase.ItemOFF();
+            _itemPanel.SetActive(false);    
         }
     }
 
@@ -64,10 +65,20 @@ public class PlayerItemManagement : MonoBehaviour
     {
         if (_itemBoxCanvas.activeSelf)
         {
+            if (_hitItem != null)
+            {
+                _itemPanel.SetActive(true);
+            }
+
             _itemBoxCanvas.SetActive(false);
         }
         else
         {
+            if (_itemPanel.activeSelf)
+            {
+                _itemPanel.SetActive(false); 
+            }
+
             _itemBoxCanvas.SetActive(true);
         }
     }
@@ -78,23 +89,30 @@ public class PlayerItemManagement : MonoBehaviour
         {
             ItemBoxChanger();
         }
+        if (_hitItem != null && Input.GetKeyDown(KeyCode.F))
+        {
+            KeyProcess(_hitItem);
+        }
     }
 
     private void OnTriggerEnter(Collider other)
     {
         _trrigerPrime = true;
+        _hitItem = other.gameObject;
 
-        if (!_itemBoxCanvas.activeSelf)
+        if (_hitItem.GetComponent<ItemBase>() != null && !_itemBoxCanvas.activeSelf)
         {
-            KeyProcess(other.gameObject);
+            _itemPanel.SetActive(true);
         }
+        //KeyProcess(other.gameObject);
     }
 
     private void OnTriggerExit(Collider other)
     {
         _trrigerPrime = false;
+        _hitItem = null;
 
-        if(_itemPanel.activeSelf)
+        if (_itemPanel.activeSelf)
         {
             _itemPanel.SetActive(false);
         }
