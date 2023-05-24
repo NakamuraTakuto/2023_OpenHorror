@@ -5,10 +5,12 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Collider))]
 public class PlayerItemManagement : MonoBehaviour
 {
+    /// <summary>アイテムインベントリのUI</summary>
     [Header("PlayerのItemインベントリ")]
-    [SerializeField] GameObject _itemCanvas;
+    [SerializeField] GameObject _itemBoxCanvas;
     [Header("ItemButtonPreFab")]
     [SerializeField] GameObject _itemButton;
+    /// <summary>Itemが取得可能の時に表示するUI</summary>
     [Header("Itemが取得可能状態にあるときに表示されるpanel")]
     [SerializeField] GameObject _itemPanel;
     [SerializeField] List<GameObject> _itemList = new();
@@ -16,7 +18,7 @@ public class PlayerItemManagement : MonoBehaviour
 
     private void Start()
     {
-        if (_itemCanvas == null || _itemButton == null || _itemPanel == null)
+        if (_itemBoxCanvas == null || _itemButton == null || _itemPanel == null)
         {
             Debug.Log("アタッチされていない箇所があります");
         }
@@ -46,9 +48,10 @@ public class PlayerItemManagement : MonoBehaviour
     {
         if (_hitObject.TryGetComponent<ItemBase>(out ItemBase itemBase) && _trrigerPrime)
         {
+            _itemPanel.GetComponent<Text>().text = $"F {itemBase.GetItemName}";
             _itemPanel.SetActive(true);
             //ItemBoxの子オブジェクトとしてButtonを生成する
-            var InstantiateObj = Instantiate(_itemButton, _itemCanvas.transform);
+            var InstantiateObj = Instantiate(_itemButton, _itemBoxCanvas.transform);
             //生成したButtonのOnClickにItemBaseの処理を追加している
             InstantiateObj.GetComponent<Button>().onClick.AddListener(() => itemBase.Action());
             InstantiateObj.GetComponentInChildren<Text>().text = itemBase.GetItemName;
@@ -59,13 +62,13 @@ public class PlayerItemManagement : MonoBehaviour
 
     void ItemBoxChanger()
     {
-        if (_itemCanvas.activeSelf)
+        if (_itemBoxCanvas.activeSelf)
         {
-            _itemCanvas.SetActive(false);
+            _itemBoxCanvas.SetActive(false);
         }
         else
         {
-            _itemCanvas.SetActive(true);
+            _itemBoxCanvas.SetActive(true);
         }
     }
 
@@ -81,7 +84,7 @@ public class PlayerItemManagement : MonoBehaviour
     {
         _trrigerPrime = true;
 
-        if (!_itemCanvas.activeSelf)
+        if (!_itemBoxCanvas.activeSelf)
         {
             KeyProcess(other.gameObject);
         }
