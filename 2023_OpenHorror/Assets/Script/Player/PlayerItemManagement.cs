@@ -15,7 +15,7 @@ public class PlayerItemManagement : MonoBehaviour
     [SerializeField] GameObject _itemPanel;
     [SerializeField] List<GameObject> _itemList = new();
     bool _trrigerPrime = false;
-    GameObject _hitItem;
+    ItemBase _hitItem;
 
     private void Start()
     {
@@ -45,18 +45,18 @@ public class PlayerItemManagement : MonoBehaviour
     //    }
     //}
 
-    void KeyProcess(GameObject _hitObject)
+    void KeyProcess(ItemBase _hitObject)
     {
-        if (_hitObject.TryGetComponent<ItemBase>(out ItemBase itemBase) && _trrigerPrime)
+        if (_hitObject != null && _trrigerPrime)
         {
-            //_itemPanel.GetComponent<Text>().text = $"F {itemBase.GetItemName}";
             //ItemBoxの子オブジェクトとしてButtonを生成する
             var InstantiateObj = Instantiate(_itemButton, _itemBoxCanvas.transform);
+
             //生成したButtonのOnClickにItemBaseの処理を追加している
-            InstantiateObj.GetComponent<Button>().onClick.AddListener(() => itemBase.Action());
-            InstantiateObj.GetComponentInChildren<Text>().text = itemBase.GetItemName;
+            InstantiateObj.GetComponent<Button>().onClick.AddListener(() => _hitObject.Action());
+            InstantiateObj.GetComponentInChildren<Text>().text = _hitObject.GetItemName;
             _itemList.Add(InstantiateObj);
-            itemBase.ItemOFF();
+            _hitObject.ItemOFF();
             _itemPanel.SetActive(false);    
         }
     }
@@ -98,11 +98,17 @@ public class PlayerItemManagement : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         _trrigerPrime = true;
-        _hitItem = other.gameObject;
+        
+        if (other.gameObject.TryGetComponent(out ItemBase item))
+        {
+            _hitItem = item;
+        }
 
-        if (_hitItem.GetComponent<ItemBase>() != null && !_itemBoxCanvas.activeSelf)
+
+        if (_hitItem != null && !_itemBoxCanvas.activeSelf)
         {
             _itemPanel.SetActive(true);
+            _itemPanel.GetComponentInChildren<Text>().text = $"F {_hitItem.GetItemName}";
         }
         //KeyProcess(other.gameObject);
     }
