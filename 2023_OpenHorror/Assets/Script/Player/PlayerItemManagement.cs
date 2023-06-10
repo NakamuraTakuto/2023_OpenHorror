@@ -1,19 +1,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using SerializeTable;
+using Serialize;
 
 [RequireComponent(typeof(Collider))]
 public class PlayerItemManagement : MonoBehaviour
 {
-    /// <summary>アイテムインベントリのUI</summary>
-    [Header("PlayerのItemインベントリ")]
+    [Tooltip("PlayerのItemインベントリ")]
     [SerializeField] GameObject _itemBoxCanvas;
-    [Header("ItemButtonPreFab")]
+    [Tooltip("ItemButtonPreFab")]
     [SerializeField] GameObject _itemButton;
-    /// <summary>Itemが取得可能の時に表示するUI</summary>
-    [Header("Itemが取得可能状態にあるときに表示されるpanel")]
+    [Tooltip("Itemが取得可能状態にあるときに表示されるpanel")]
     [SerializeField] GameObject _itemPanel;
-    [SerializeField] List<GameObject> _itemList = new();
+    [Tooltip("所持しているアイテム (アイテム名, 個数)")]
+    //[SerializeField] DicTable _ItemDic = new();
+    //public DicTable GetItemDic => _ItemDic;
+    [SerializeField] List<string> _itemList = new();
     bool _trrigerPrime = false;
     ItemBase _hitItem;
 
@@ -24,27 +27,6 @@ public class PlayerItemManagement : MonoBehaviour
             Debug.Log("アタッチされていない箇所があります");
         }
     }
-
-    //void ClickProcess()//左クリック時の処理
-    //{
-    //    Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-    //    if (Physics.Raycast(ray, out RaycastHit hit))
-    //    {
-    //        //Rayを飛ばして対象がItemBaseを継承していた場合に実行
-    //        if (hit.collider.gameObject.TryGetComponent<ItemBase>(out ItemBase itemBase))
-    //        {
-    //            //ItemBoxの子オブジェクトとしてButtonを生成する
-    //            var InstantiateObj = Instantiate(_itemButton, _itemCanvas.transform);
-    //            //生成したButtonのOnClickにItemBaseの処理を追加している
-    //            InstantiateObj.GetComponent<Button>().onClick.AddListener(() => itemBase.Action());
-    //            InstantiateObj.GetComponentInChildren<Text>().text = itemBase.GetItemName;
-    //            _itemList.Add(InstantiateObj);
-    //            itemBase.ItemOFF();
-    //        }
-    //    }
-    //}
-
     void KeyProcess(ItemBase _hitObject)
     {
         if (_hitObject != null && _trrigerPrime)
@@ -55,7 +37,16 @@ public class PlayerItemManagement : MonoBehaviour
             //生成したButtonのOnClickにItemBaseの処理を追加している
             InstantiateObj.GetComponent<Button>().onClick.AddListener(() => _hitObject.Action());
             InstantiateObj.GetComponentInChildren<Text>().text = _hitObject.GetItemName;
-            _itemList.Add(InstantiateObj);
+
+            if (!_itemList.Contains(_hitObject.GetItemName))
+            {
+                Debug.Log("yobareta");
+                _itemList.Add(_hitItem.GetItemName);
+            }
+            //else
+            //{ 
+            //    _ItemDic.GetTable()[_hitObject.GetItemName] += 1;
+            //}
             _hitObject.ItemOFF();
             _itemPanel.SetActive(false);    
         }
@@ -123,4 +114,25 @@ public class PlayerItemManagement : MonoBehaviour
             _itemPanel.SetActive(false);
         }
     }
+
+    //void ClickProcess()//左クリック時の処理
+    //{
+    //    Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+    //    if (Physics.Raycast(ray, out RaycastHit hit))
+    //    {
+    //        //Rayを飛ばして対象がItemBaseを継承していた場合に実行
+    //        if (hit.collider.gameObject.TryGetComponent<ItemBase>(out ItemBase itemBase))
+    //        {
+    //            //ItemBoxの子オブジェクトとしてButtonを生成する
+    //            var InstantiateObj = Instantiate(_itemButton, _itemCanvas.transform);
+    //            //生成したButtonのOnClickにItemBaseの処理を追加している
+    //            InstantiateObj.GetComponent<Button>().onClick.AddListener(() => itemBase.Action());
+    //            InstantiateObj.GetComponentInChildren<Text>().text = itemBase.GetItemName;
+    //            _itemList.Add(InstantiateObj);
+    //            itemBase.ItemOFF();
+    //        }
+    //    }
+    //}
+
 }
