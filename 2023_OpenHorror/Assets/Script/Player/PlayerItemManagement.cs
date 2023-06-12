@@ -14,9 +14,8 @@ public class PlayerItemManagement : MonoBehaviour
     [Tooltip("Itemが取得可能状態にあるときに表示されるpanel")]
     [SerializeField] GameObject _itemPanel;
     [Tooltip("所持しているアイテム (アイテム名, 個数)")]
-    //[SerializeField] DicTable _ItemDic = new();
-    //public DicTable GetItemDic => _ItemDic;
     [SerializeField] List<string> _itemList = new();
+    public List<string> GetItemList = new();
     bool _trrigerPrime = false;
     ItemBase _hitItem;
 
@@ -37,16 +36,7 @@ public class PlayerItemManagement : MonoBehaviour
             //生成したButtonのOnClickにItemBaseの処理を追加している
             InstantiateObj.GetComponent<Button>().onClick.AddListener(() => _hitObject.Action());
             InstantiateObj.GetComponentInChildren<Text>().text = _hitObject.GetItemName;
-
-            if (!_itemList.Contains(_hitObject.GetItemName))
-            {
-                Debug.Log("yobareta");
-                _itemList.Add(_hitItem.GetItemName);
-            }
-            //else
-            //{ 
-            //    _ItemDic.GetTable()[_hitObject.GetItemName] += 1;
-            //}
+            _itemList.Add(_hitObject.GetItemName);
             _hitObject.ItemOFF();
             _itemPanel.SetActive(false);    
         }

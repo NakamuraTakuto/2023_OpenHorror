@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 namespace Serialize
 {
@@ -32,6 +33,12 @@ namespace Serialize
             return list;
         }
 
+        //public Dictionary<TKey, TValue> Add<TKey, TValue>(TKey key, TValue value)
+        //{
+        //    List<KeyValuePair<TKey, TValue>> b = new List<new KeyValuePair<TKey, TValue>(key, value)>;
+        //    Dictionary<TKey, TValue> dic = new Dictionary<TKey, TValue>();
+        //    return Dictionary
+        //}
         static Dictionary<TKey, TValue> ConvertListToDictionary(List<Type> list)
         {
             Dictionary<TKey, TValue> dic = new Dictionary<TKey, TValue>();
@@ -51,12 +58,12 @@ namespace Serialize
     {
         public TKey Key;
         public TValue Value;
-
         public KeyAndVlueSample(TKey key, TValue value)
         {
             Key = key;
             Value = value;
         }
+
         public KeyAndVlueSample(KeyValuePair<TKey, TValue> pair)
         {
             Key = pair.Key;

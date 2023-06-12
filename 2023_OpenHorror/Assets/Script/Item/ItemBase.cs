@@ -5,9 +5,11 @@ using UnityEngine.UI;
 
 public abstract class ItemBase : MonoBehaviour
 {
-    [Header("Item名を設定")]
+    [Tooltip("Item名を設定")]
     [SerializeField] private string _itemName;
     public string GetItemName => _itemName;
+    [Tooltip("購入時に必要なアイテム")]
+    [SerializeField] public List<string> RequiredItems = new();
 
     private void Start()
     {
@@ -18,6 +20,22 @@ public abstract class ItemBase : MonoBehaviour
     }
 
     public abstract void Action(); //インベントリで選択された時の処理
+
+    public bool Condition(List<string> plyerItems)
+    {
+        for (int i = 0; i < RequiredItems.Count; i++)
+        {
+            if (!plyerItems.Contains(RequiredItems[i]))
+            {
+                return false;
+            }
+            else
+            {
+                plyerItems.RemoveAt(plyerItems.IndexOf(RequiredItems[i]));
+            }
+        }
+        return true;
+    }
 
     public void ItemOFF() //Itemがインベントリに追加された時に実行
     {

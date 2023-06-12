@@ -848,7 +848,9 @@ MonoBehaviour:
   _itemBoxCanvas: {fileID: 813696234}
   _itemButton: {fileID: 2710457663487922137, guid: fe22cff92e214a64bb6c0b6fa8b85cfb, type: 3}
   _itemPanel: {fileID: 524257612}
-  _itemList: []
+  _itemList:
+  - 
+  GetItemList: []
 --- !u!1 &813696234
 GameObject:
   m_ObjectHideFlags: 0
@@ -1492,6 +1494,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _infomationUI: {fileID: 0}
+  _sellItem: []
 --- !u!1001 &1146790398
 PrefabInstance:
   m_ObjectHideFlags: 0
