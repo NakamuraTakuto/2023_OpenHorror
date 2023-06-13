@@ -1,23 +1,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using SerializeTable;
-using Serialize;
 
 [RequireComponent(typeof(Collider))]
 public class PlayerItemManagement : MonoBehaviour
 {
     [Tooltip("PlayerのItemインベントリ")]
-    [SerializeField] GameObject _itemBoxCanvas;
-    [Tooltip("ItemButtonPreFab")]
-    [SerializeField] GameObject _itemButton;
+    [SerializeField] private GameObject _itemBoxCanvas;
+    [Tooltip("ItemButtonPreFab, インベントリにだすButton")]
+    [SerializeField] private GameObject _itemButton;
     [Tooltip("Itemが取得可能状態にあるときに表示されるpanel")]
-    [SerializeField] GameObject _itemPanel;
-    [Tooltip("所持しているアイテム (アイテム名, 個数)")]
-    [SerializeField] List<string> _itemList = new();
-    public List<string> GetItemList = new();
-    bool _trrigerPrime = false;
-    ItemBase _hitItem;
+    [SerializeField] private GameObject _itemPanel;
+    [Tooltip("Playerが所持しているアイテム")]
+    [SerializeField] public List<string> PlayerItemList = new();
+    [Tooltip("Playerが所持している金額")]
+    [SerializeField] public int PlayerMoney = 0;
+    private bool _trrigerPrime = false;
+    private ItemBase _hitItem;
 
     private void Start()
     {
@@ -36,7 +35,7 @@ public class PlayerItemManagement : MonoBehaviour
             //生成したButtonのOnClickにItemBaseの処理を追加している
             InstantiateObj.GetComponent<Button>().onClick.AddListener(() => _hitObject.Action());
             InstantiateObj.GetComponentInChildren<Text>().text = _hitObject.GetItemName;
-            _itemList.Add(_hitObject.GetItemName);
+            PlayerItemList.Add(_hitObject.GetItemName);
             _hitObject.ItemOFF();
             _itemPanel.SetActive(false);    
         }

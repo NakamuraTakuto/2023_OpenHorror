@@ -92,7 +92,6 @@ GameObject:
   - component: {fileID: 2710457663487922116}
   - component: {fileID: 2710457663487922117}
   - component: {fileID: 2710457663487922138}
-  - component: {fileID: 2710457663487922139}
   m_Layer: 5
   m_Name: TestBtton
   m_TagString: Untagged
@@ -215,15 +214,3 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &2710457663487922139
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2710457663487922137}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cd68af202fdb17a42954cfe853f88e36, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
