@@ -69,6 +69,7 @@ public class ItemStore : MonoBehaviour
             case TradeType.money:
                 _pim.PlayerMoney -= item.GetNeedMoney;
                 CanSellItem();
+                _pim.KeyProcess(item);
                 break;
 
             case TradeType.item:
@@ -76,6 +77,7 @@ public class ItemStore : MonoBehaviour
                 {
                     _pim.PlayerItemList.RemoveAt(_pim.PlayerItemList.IndexOf(item.GetRequiredItems[i]));
                 }
+                _pim.KeyProcess(item);
                 CanSellItem();
                 break;
         }
@@ -96,6 +98,10 @@ public class ItemStore : MonoBehaviour
                 _shopPanel.SetActive(true);
                 CanSellItem();
             }
+        }
+        if (Input.GetKeyDown(KeyCode.B))
+        {
+            _infomationUI.SetActive(false);
         }
     }
 

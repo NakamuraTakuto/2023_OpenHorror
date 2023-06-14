@@ -25,7 +25,7 @@ public class PlayerItemManagement : MonoBehaviour
             Debug.Log("アタッチされていない箇所があります");
         }
     }
-    void KeyProcess(ItemBase _hitObject)
+    public void KeyProcess(ItemBase _hitObject)
     {
         if (_hitObject != null && _trrigerPrime)
         {
