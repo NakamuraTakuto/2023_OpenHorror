@@ -77,31 +77,31 @@ public class PlayerItemManagement : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        _trrigerPrime = true;
+        //_trrigerPrime = true;
         
-        if (other.gameObject.TryGetComponent(out ItemBase item))
-        {
-            _hitItem = item;
-        }
+        //if (other.gameObject.TryGetComponent(out ItemBase item))
+        //{
+        //    _hitItem = item;
+        //}
 
 
-        if (_hitItem != null && !_itemBoxCanvas.activeSelf)
-        {
-            _itemPanel.SetActive(true);
-            _itemPanel.GetComponentInChildren<Text>().text = $"F {_hitItem.GetItemName}";
-        }
+        //if (_hitItem != null && !_itemBoxCanvas.activeSelf)
+        //{
+        //    _itemPanel.SetActive(true);
+        //    _itemPanel.GetComponentInChildren<Text>().text = $"F {_hitItem.GetItemName}";
+        //}
         //KeyProcess(other.gameObject);
     }
 
     private void OnTriggerExit(Collider other)
     {
-        _trrigerPrime = false;
-        _hitItem = null;
+        //_trrigerPrime = false;
+        //_hitItem = null;
 
-        if (_itemPanel.activeSelf)
-        {
-            _itemPanel.SetActive(false);
-        }
+        //if (_itemPanel.activeSelf)
+        //{
+        //    _itemPanel.SetActive(false);
+        //}
     }
 
     //void ClickProcess()//ç∂ÉNÉäÉbÉNéûÇÃèàóù
