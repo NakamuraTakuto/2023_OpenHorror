@@ -6,7 +6,7 @@ using UnityEngine;
 public class PlayerMove : MonoBehaviour
 {
     [Header("MoveSpeed")]
-    [SerializeField] float _moveSpeed = 5f;
+    [SerializeField] public float MoveSpeed = 5f;
     Rigidbody _rb;
     Animator _anim;
 
@@ -24,13 +24,13 @@ public class PlayerMove : MonoBehaviour
         float h = Input.GetAxisRaw("Horizontal");
         float v = Input.GetAxisRaw("Vertical");
         Vector3 dir =  cameraDir * v + Camera.main.transform.right * h;
-        float hv = h + v != 0 ? 5f : 0;
+        float hv = dir != Vector3.zero ? 10f : 0;
 
         if (dir != Vector3.zero)
         {
             gameObject.transform.forward = dir;
         }
         _anim.SetFloat("SpeedF", hv);
-        _rb.velocity = dir.normalized * _moveSpeed;
+        _rb.velocity = dir.normalized * MoveSpeed;
     }
 }

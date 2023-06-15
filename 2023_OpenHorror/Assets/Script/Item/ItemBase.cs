@@ -37,7 +37,7 @@ public abstract class ItemBase : MonoBehaviour
     public abstract void Action(); 
 
     /// <summary>w“ü‰Â”\‚©‚Ì”»’è(Player‚ÌŠ•i, Player‚ÌŠ‹à) </summary
-    public bool Condition(List<string> plyerItems, int playerMonay)@//w“ü‰Â”\‚©‚Ì”»’è
+    public bool Condition(List<string> plyerItems, int playerMonay)
     {
         switch (_tradeType)
         {
@@ -75,8 +75,10 @@ public abstract class ItemBase : MonoBehaviour
     public void ItemOFF() 
     {
         //Collider‚ÆRenderer‚ğFalse‚É‚µ‚Ä”»’è‚Ìæ“¾‚Æ•`‰æ‚ğ~‚ß‚Ä‚¢‚é
-        GetComponent<Collider>().enabled = false;
-
+        if (TryGetComponent(out Collider collider))
+        {
+            collider.enabled = false; 
+        }
         if (TryGetComponent(out MeshRenderer renderer))
         {
             renderer.enabled = false;
