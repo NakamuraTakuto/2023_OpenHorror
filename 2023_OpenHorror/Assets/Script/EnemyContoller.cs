@@ -11,6 +11,7 @@ public class EnemyContoller : MonoBehaviour
     [SerializeField] GameObject gameManager;
     Rigidbody _rb;
     Transform _playerTransform;
+    Animator _anim;
 
     private void Start()
     {
@@ -20,12 +21,14 @@ public class EnemyContoller : MonoBehaviour
         }
         _rb = GetComponent<Rigidbody>();
         _playerTransform = _player.GetComponent<Transform>();
+        //_anim.GetComponent<Animator>();
     }
 
     private void Update()
     {
         Vector3 direction = (_playerTransform.position - gameObject.transform.position);
         _rb.velocity = direction.normalized * _moveSpeed;
+        //_anim.SetFloat("SpeedF", 10);
     }
 
     private void OnCollisionEnter(Collision collision)

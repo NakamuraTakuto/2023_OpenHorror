@@ -13,6 +13,11 @@ public class GameManager : MonoBehaviour
     [SerializeField] float[] _ctRange = new float[] { 15f, 30f };
     [Tooltip("追ってくる時間(min, max)")]
     [SerializeField] float[] _chaseTimeRange = new float[] { 10f, 20f };
+    [Tooltip("ゲームオーバーPanel")]
+    [SerializeField] GameObject _gameOverPanel;
+    [Tooltip("clear時に出す暗転Panel")]
+    [SerializeField] GameObject _clearPanel;
+    public bool Is_Clear = false;
     bool _chase = false;
     float _ct = 0;
     float _chaseTime = 0;
@@ -41,6 +46,16 @@ public class GameManager : MonoBehaviour
             _ct = Random.Range(_ctRange[0], _ctRange[1]);
             _chase = false;
             _time = 0;
+        }
+
+        if (!Is_Game)
+        {
+            _gameOverPanel.SetActive(true);
+        }
+
+        if (Is_Clear)
+        {
+            _clearPanel.SetActive(true);
         }
     }
 }

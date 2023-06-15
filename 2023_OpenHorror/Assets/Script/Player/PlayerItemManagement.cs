@@ -17,6 +17,7 @@ public class PlayerItemManagement : MonoBehaviour
     [SerializeField] public int PlayerMoney = 0;
     private bool _trrigerPrime = false;
     private ItemBase _hitItem;
+    private List<GameObject> buttonList = new();
 
     private void Start()
     {
@@ -35,10 +36,17 @@ public class PlayerItemManagement : MonoBehaviour
             //¶¬‚µ‚½Button‚ÌOnClick‚ÉItemBase‚Ìˆ—‚ğ’Ç‰Á‚µ‚Ä‚¢‚é
             InstantiateObj.GetComponent<Button>().onClick.AddListener(() => _hitObject.Action());
             InstantiateObj.GetComponentInChildren<Text>().text = _hitObject.GetItemName;
+            buttonList.Add(InstantiateObj);
             PlayerItemList.Add(_hitObject.GetItemName);
             _hitObject.ItemOFF();
             _itemPanel.SetActive(false);    
         }
+    }
+
+    public void ButtonRemove(int x)
+    {
+        Destroy(buttonList[x]);
+        buttonList.RemoveAt(x);
     }
 
     void ItemBoxChanger()

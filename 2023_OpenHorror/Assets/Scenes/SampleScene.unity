@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1352,6 +1352,7 @@ MonoBehaviour:
   _sellItem:
   - {fileID: 3299153126568770792, guid: 04ac896df2ac0204cba60882d1457a08, type: 3}
   - {fileID: 3299153126568770792, guid: e3b54a44ca8893e42902ba627d888d24, type: 3}
+  - {fileID: 736328536922956620, guid: b9f983019776c134b8a10d581a0e3448, type: 3}
   _shopPanel: {fileID: 397639054}
   _button: {fileID: 2710457663487922137, guid: fe22cff92e214a64bb6c0b6fa8b85cfb, type: 3}
 --- !u!224 &1127885013
@@ -1858,7 +1859,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh27974
+  m_Name: pb_Mesh170834
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2

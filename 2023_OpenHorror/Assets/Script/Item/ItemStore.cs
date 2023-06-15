@@ -75,7 +75,9 @@ public class ItemStore : MonoBehaviour
             case TradeType.item:
                 for (int i = 0; i < item.GetRequiredItems.Count; i++)
                 {
-                    _pim.PlayerItemList.RemoveAt(_pim.PlayerItemList.IndexOf(item.GetRequiredItems[i]));
+                    int x = _pim.PlayerItemList.IndexOf(item.GetRequiredItems[i]);
+                    _pim.PlayerItemList.RemoveAt(x);
+                    _pim.ButtonRemove(x);
                 }
                 _pim.KeyProcess(item);
                 CanSellItem();
