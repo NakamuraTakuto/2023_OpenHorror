@@ -77,51 +77,29 @@ public class PlayerItemManagement : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        //_trrigerPrime = true;
-        
-        //if (other.gameObject.TryGetComponent(out ItemBase item))
-        //{
-        //    _hitItem = item;
-        //}
+        _trrigerPrime = true;
+
+        if (other.gameObject.TryGetComponent(out ItemBase item))
+        {
+            _hitItem = item;
+        }
 
 
-        //if (_hitItem != null && !_itemBoxCanvas.activeSelf)
-        //{
-        //    _itemPanel.SetActive(true);
-        //    _itemPanel.GetComponentInChildren<Text>().text = $"F {_hitItem.GetItemName}";
-        //}
-        //KeyProcess(other.gameObject);
+        if (_hitItem != null && !_itemBoxCanvas.activeSelf)
+        {
+            _itemPanel.SetActive(true);
+            _itemPanel.GetComponentInChildren<Text>().text = $"F {_hitItem.GetItemName}";
+        }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        //_trrigerPrime = false;
-        //_hitItem = null;
+        _trrigerPrime = false;
+        _hitItem = null;
 
-        //if (_itemPanel.activeSelf)
-        //{
-        //    _itemPanel.SetActive(false);
-        //}
+        if (_itemPanel.activeSelf)
+        {
+            _itemPanel.SetActive(false);
+        }
     }
-
-    //void ClickProcess()//左クリック時の処理
-    //{
-    //    Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-    //    if (Physics.Raycast(ray, out RaycastHit hit))
-    //    {
-    //        //Rayを飛ばして対象がItemBaseを継承していた場合に実行
-    //        if (hit.collider.gameObject.TryGetComponent<ItemBase>(out ItemBase itemBase))
-    //        {
-    //            //ItemBoxの子オブジェクトとしてButtonを生成する
-    //            var InstantiateObj = Instantiate(_itemButton, _itemCanvas.transform);
-    //            //生成したButtonのOnClickにItemBaseの処理を追加している
-    //            InstantiateObj.GetComponent<Button>().onClick.AddListener(() => itemBase.Action());
-    //            InstantiateObj.GetComponentInChildren<Text>().text = itemBase.GetItemName;
-    //            _itemList.Add(InstantiateObj);
-    //            itemBase.ItemOFF();
-    //        }
-    //    }
-    //}
-
 }
