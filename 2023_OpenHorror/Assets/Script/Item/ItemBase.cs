@@ -76,6 +76,10 @@ public abstract class ItemBase : MonoBehaviour
     {
         //Collider‚ÆRenderer‚ðFalse‚É‚µ‚Ä”»’è‚ÌŽæ“¾‚Æ•`‰æ‚ðŽ~‚ß‚Ä‚¢‚é
         GetComponent<Collider>().enabled = false;
-        GetComponent<MeshRenderer>().enabled = false;
+
+        if (TryGetComponent(out MeshRenderer renderer))
+        {
+            renderer.enabled = false;
+        }
     }
 }
