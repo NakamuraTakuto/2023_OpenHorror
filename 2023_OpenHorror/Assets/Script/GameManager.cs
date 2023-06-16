@@ -17,8 +17,13 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject _gameOverPanel;
     [Tooltip("clearŽž‚Éo‚·ˆÃ“]Panel")]
     [SerializeField] GameObject _clearPanel;
+    [SerializeField] GameObject _playerItemBox;
+    [SerializeField] GameObject _storePanel;
     public bool Is_Clear = false;
-    bool _chase = false;
+    [SerializeField] bool _chase = false;
+    bool _ctORchase = false;
+    bool is_go = false;
+    public bool Is_GO => is_go;
     float _ct = 0;
     float _chaseTime = 0;
     float _time = 0;
@@ -30,32 +35,40 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        _time += Time.deltaTime;
+        if (!_playerItemBox.activeSelf && !_storePanel.activeSelf)
+        {
+            is_go = true;
+            _time += Time.deltaTime;
 
-        if (_ct <= _time && !_chase)
-        {
-            _chaseTime = Random.Range(_chaseTimeRange[0], _chaseTimeRange[1]);
-            _chase = true;
-            _enemy.transform.position = _reSetPos.transform.position;
-            _enemy.SetActive(true);
-            _time = 0;
-        }
-        if (_chase && _time > _chaseTime)
-        {
-            _enemy.SetActive(false);
-            _ct = Random.Range(_ctRange[0], _ctRange[1]);
-            _chase = false;
-            _time = 0;
-        }
+            if (_ct <= _time && _chase && !_ctORchase)
+            {
+                _chaseTime = Random.Range(_chaseTimeRange[0], _chaseTimeRange[1]);
+                _ctORchase = true;
+                _enemy.transform.position = _reSetPos.transform.position;
+                _enemy.SetActive(true);
+                _time = 0;
+            }
+            if (_chase && _time > _chaseTime && _ctORchase)
+            {
+                _enemy.SetActive(false);
+                _ct = Random.Range(_ctRange[0], _ctRange[1]);
+                _ctORchase = false;
+                _time = 0;
+            }
 
-        if (!Is_Game)
-        {
-            _gameOverPanel.SetActive(true);
-        }
+            if (!Is_Game)
+            {
+                _gameOverPanel.SetActive(true);
+            }
 
-        if (Is_Clear)
+            if (Is_Clear)
+            {
+                _clearPanel.SetActive(true);
+            }
+        }
+        else
         {
-            _clearPanel.SetActive(true);
+            is_go = false;
         }
     }
 }

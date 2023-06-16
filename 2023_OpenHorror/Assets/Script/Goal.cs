@@ -13,4 +13,8 @@ public class Goal : MonoBehaviour
             Is_Flug = true;
         }
     }
+    private void OnTriggerExit(Collider other)
+    {
+        Is_Flug = false;
+    }
 }

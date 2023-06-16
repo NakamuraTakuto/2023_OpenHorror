@@ -8,13 +8,16 @@ public class KeyItem : ItemBase
     [SerializeField] GameObject _textImageUI = null;
     [Tooltip("テキストの内容")]
     [SerializeField] string _message = "メッセージが設定されていません";
+    [SerializeField] string _itemText;
     Goal _goal = null;
     public override void Action()
     {
-        if (_goal = null)
+        if (FindObjectOfType<KeyItem>() == null)
         {
+            Instantiate(gameObject);
             _goal = FindObjectOfType<Goal>();
         }
+
         if (_goal.Is_Flug)
         {
             FindObjectOfType<GameManager>().Is_Clear = true;

@@ -12,6 +12,7 @@ public class EnemyContoller : MonoBehaviour
     Rigidbody _rb;
     Transform _playerTransform;
     Animator _anim;
+    GameManager _gm;
 
     private void Start()
     {
@@ -21,21 +22,24 @@ public class EnemyContoller : MonoBehaviour
         }
         _rb = GetComponent<Rigidbody>();
         _playerTransform = _player.GetComponent<Transform>();
+        _gm = gameManager.GetComponent<GameManager>();
         //_anim.GetComponent<Animator>();
     }
 
     private void Update()
     {
-        Vector3 direction = (_playerTransform.position - gameObject.transform.position);
+        if (_gm.Is_GO)
+        { Vector3 direction = (_playerTransform.position - gameObject.transform.position);
         _rb.velocity = direction.normalized * _moveSpeed;
         //_anim.SetFloat("SpeedF", 10);
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject == _player)
         {
-            gameManager.GetComponent<GameManager>().Is_Game = false;
+            _gm.Is_Game = false;
         }
     }
 }

@@ -16,14 +16,13 @@ public class PlayerMove : MonoBehaviour
         _rb = GetComponent<Rigidbody>();   
     }
 
-    // Update is called once per frame
-    void Update()
+    private void FixedUpdate()
     {
         var cameraDir = Camera.main.transform.forward;
         cameraDir.y = 0;
         float h = Input.GetAxisRaw("Horizontal");
         float v = Input.GetAxisRaw("Vertical");
-        Vector3 dir =  cameraDir * v + Camera.main.transform.right * h;
+        Vector3 dir = cameraDir * v + Camera.main.transform.right * h;
         float hv = dir != Vector3.zero ? 10f : 0;
 
         if (dir != Vector3.zero)
