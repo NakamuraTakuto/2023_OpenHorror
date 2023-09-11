@@ -9,6 +9,14 @@ public enum TradeType
     money,
     item
 }
+
+public enum ItemName
+{
+    Iron,
+    BigHunds,
+    Wood
+}
+
 public abstract class ItemBase : MonoBehaviour
 {
     [Tooltip("アイテムのトレード方法")]
@@ -18,8 +26,8 @@ public abstract class ItemBase : MonoBehaviour
     [SerializeField] private string _itemName;
     public string GetItemName => _itemName;
     [Tooltip("購入時に必要なアイテム")]
-    [SerializeField] private List<string> _requiredItems = new();
-    public List<string> GetRequiredItems => _requiredItems;
+    [SerializeField] private List<ItemName> _requiredItems = new();
+    public List<ItemName> GetRequiredItems => _requiredItems;
     [Tooltip("購入に必要な金額")]
     [SerializeField] private int _needMoney = 10;
     public int GetNeedMoney => _needMoney;
@@ -34,9 +42,9 @@ public abstract class ItemBase : MonoBehaviour
     }
 
     /// <summary>インベントリで選択された時の処理</summary>
-    public abstract void Action(); 
+    public abstract void Action();
 
-    /// <summary>購入可能かの判定(Playerの所持品, Playerの所持金) </summary
+    /// <summary>購入可能かの判定(Playerの所持品, Playerの所持金</summary
     public bool Condition(List<string> plyerItems, int playerMonay)
     {
         switch (_tradeType)
@@ -45,13 +53,13 @@ public abstract class ItemBase : MonoBehaviour
                 var tempList = new List<string>(plyerItems);
                 for (int i = 0; i < _requiredItems.Count; i++) //購入に必要なアイテムの分ループ
                 {
-                    if (!tempList.Contains(_requiredItems[i]))
+                    if (!tempList.Contains(_requiredItems[i].ToString()))
                     {//必要なアイテムが一つでもなかったとき、Falseを返してループを終了
                         return false;
                     }
                     else
                     {//必要なアイテムがあったときにコピーしたリストからリムーブして次の判定
-                        tempList.RemoveAt(tempList.IndexOf(_requiredItems[i]));
+                        tempList.RemoveAt(tempList.IndexOf(_requiredItems[i].ToString()));
                     }
                 }
                 return true;

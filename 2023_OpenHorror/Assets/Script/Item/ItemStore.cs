@@ -31,10 +31,10 @@ public class ItemStore : MonoBehaviour
             for (int i = 0; i < _sellItem.Count; i++)
             {
                 var button = Instantiate(_button, _shopPanel.transform);
-                button.GetComponentInChildren<Text>().text = _sellItem[i].GetComponent<ItemBase>().GetItemName;
+                button.GetComponentInChildren<Text>().text = _sellItem[i].GetComponent<ItemBase>().GetItemName.ToString();
                 button.GetComponent<Button>().onClick.AddListener(() => Trade(button.GetComponentInChildren<Text>().text));
-                _sellDic.Add(_sellItem[i].GetComponent<ItemBase>().GetItemName, _sellItem[i]);
-                _buttonDic.Add(_sellItem[i].GetComponent<ItemBase>().GetItemName, button);
+                _sellDic.Add(_sellItem[i].GetComponent<ItemBase>().GetItemName.ToString(), _sellItem[i]);
+                _buttonDic.Add(_sellItem[i].GetComponent<ItemBase>().GetItemName.ToString(), button);
             }
         }
     }
@@ -49,11 +49,11 @@ public class ItemStore : MonoBehaviour
             //購入不可の状態にあるときにButtonを使用不可にする
             if (!sellItemScript.Condition(_pim.PlayerItemList,_pim.PlayerMoney))
             {
-                _buttonDic[sellItemScript.GetItemName].GetComponent<Button>().interactable = false;
+                _buttonDic[sellItemScript.GetItemName.ToString()].GetComponent<Button>().interactable = false;
             }
             else
             {
-                _buttonDic[sellItemScript.GetItemName].GetComponent<Button>().interactable = true;
+                _buttonDic[sellItemScript.GetItemName.ToString()].GetComponent<Button>().interactable = true;
             }
         }
     }
@@ -75,7 +75,7 @@ public class ItemStore : MonoBehaviour
             case TradeType.item:
                 for (int i = 0; i < item.GetRequiredItems.Count; i++)
                 {
-                    int x = _pim.PlayerItemList.IndexOf(item.GetRequiredItems[i]);
+                    int x = _pim.PlayerItemList.IndexOf(item.GetRequiredItems[i].ToString());
                     _pim.PlayerItemList.RemoveAt(x);
                     _pim.ButtonRemove(x);
                 }

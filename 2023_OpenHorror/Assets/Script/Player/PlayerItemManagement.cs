@@ -35,9 +35,9 @@ public class PlayerItemManagement : MonoBehaviour
 
             //¶¬‚µ‚½Button‚ÌOnClick‚ÉItemBase‚Ìˆ—‚ğ’Ç‰Á‚µ‚Ä‚¢‚é
             InstantiateObj.GetComponent<Button>().onClick.AddListener(() => _hitObject.Action());
-            InstantiateObj.GetComponentInChildren<Text>().text = _hitObject.GetItemName;
+            InstantiateObj.GetComponentInChildren<Text>().text = _hitObject.GetItemName.ToString();
             buttonList.Add(InstantiateObj);
-            PlayerItemList.Add(_hitObject.GetItemName);
+            PlayerItemList.Add(_hitObject.GetItemName.ToString());
             _hitObject.ItemOFF();
             _itemPanel.SetActive(false);    
         }

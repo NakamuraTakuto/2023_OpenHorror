@@ -431,7 +431,9 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
+  m_VertexColorAlwaysGammaSpace: 0
   m_AdditionalShaderChannelsFlag: 0
+  m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
@@ -522,10 +524,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _tradeType: 1
   _itemName: Key
-  _requiredItems:
-  - Iron
-  - BigHunds
-  - Wood
+  _requiredItems: 000000000100000002000000
   _needMoney: 10
   _textImageUI: {fileID: 5764977388036798069}
   _message: "\u8131\u51FA\u53E3\u306E\u30AB\u30AE"
