@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 [RequireComponent(typeof(Rigidbody))]
 public class EnemyContoller : MonoBehaviour
@@ -13,6 +14,7 @@ public class EnemyContoller : MonoBehaviour
     Transform _playerTransform;
     Animator _anim;
     GameManager _gm;
+    NavMeshAgent _agent;
 
     private void Start()
     {
@@ -23,15 +25,20 @@ public class EnemyContoller : MonoBehaviour
         _rb = GetComponent<Rigidbody>();
         _playerTransform = _player.GetComponent<Transform>();
         _gm = gameManager.GetComponent<GameManager>();
+        _agent = GetComponent<NavMeshAgent>();
         //_anim.GetComponent<Animator>();
+
+        _agent.speed = _moveSpeed;
     }
 
     private void Update()
     {
         if (_gm.Is_GO)
-        { Vector3 direction = (_playerTransform.position - gameObject.transform.position);
-        _rb.velocity = direction.normalized * _moveSpeed;
-        //_anim.SetFloat("SpeedF", 10);
+        { 
+            //Vector3 direction = (_playerTransform.position - gameObject.transform.position);
+            //_rb.velocity = direction.normalized * _moveSpeed;
+            ////_anim.SetFloat("SpeedF", 10);
+            _agent.destination = _playerTransform.position;
         }
     }
 
