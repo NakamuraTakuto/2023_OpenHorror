@@ -47,13 +47,13 @@ public class ItemStore : MonoBehaviour
             var sellItemScript = _sellItem[i].GetComponent<ItemBase>();
 
             //購入不可の状態にあるときにButtonを使用不可にする
-            if (!sellItemScript.Condition(_pim.PlayerItemList,_pim.PlayerMoney))
+            if (sellItemScript.Condition(_pim.PlayerItemList,_pim.PlayerMoney))
             {
-                _buttonDic[sellItemScript.GetItemName.ToString()].GetComponent<Button>().interactable = false;
+                _buttonDic[sellItemScript.GetItemName.ToString()].GetComponent<Button>().interactable = true;
             }
             else
             {
-                _buttonDic[sellItemScript.GetItemName.ToString()].GetComponent<Button>().interactable = true;
+                _buttonDic[sellItemScript.GetItemName.ToString()].GetComponent<Button>().interactable = false;
             }
         }
     }

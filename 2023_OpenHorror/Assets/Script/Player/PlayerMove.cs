@@ -5,15 +5,39 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerMove : MonoBehaviour
 {
-    [Header("MoveSpeed")]
+    [Tooltip("MoveSpeed")]
     [SerializeField] public float MoveSpeed = 5f;
+    [Tooltip("IK âEéËÇÃëŒè€Obj")]
+    [SerializeField] private GameObject IK_handRight = null;
+    [Tooltip("IK ç∂éËÇÃëŒè€Obj")]
+    [SerializeField] private GameObject IK_handLeft = null;
     Rigidbody _rb;
     Animator _anim;
 
     void Start()
     {
         _anim = GetComponent<Animator>();
-        _rb = GetComponent<Rigidbody>();   
+        _rb = GetComponent<Rigidbody>();
+
+        IKSetter();
+    }
+
+    private void IKSetter()
+    {
+        if (IK_handLeft != null && IK_handRight != null)
+        {
+            //âEéË
+            _anim.SetIKPositionWeight(AvatarIKGoal.RightHand, 1);
+            _anim.SetIKRotationWeight(AvatarIKGoal.RightHand, 1);
+            _anim.SetIKPosition(AvatarIKGoal.RightHand, IK_handRight.transform.position);
+            //_anim.SetIKRotation(AvatarIKGoal.RightHand, IK_handRight.transform.rotation);
+
+            //ç∂éË
+            _anim.SetIKPositionWeight(AvatarIKGoal.LeftHand, 1);
+            _anim.SetIKRotationWeight(AvatarIKGoal.LeftHand, 1);
+            _anim.SetIKPosition(AvatarIKGoal.RightHand, IK_handLeft.transform.position);
+            //_anim.SetIKRotation(AvatarIKGoal.RightHand, IK_handLeft.transform.rotation);
+        }
     }
 
     private void FixedUpdate()

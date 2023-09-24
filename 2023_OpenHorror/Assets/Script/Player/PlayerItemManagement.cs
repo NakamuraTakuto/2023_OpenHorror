@@ -5,8 +5,10 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Collider))]
 public class PlayerItemManagement : MonoBehaviour
 {
-    [Tooltip("PlayerのItemインベントリ")]
+    [Tooltip("アイテムインベントリをまとめる空のObj")]
     [SerializeField] private GameObject _itemBoxCanvas;
+    [Tooltip("実際にButtonを追加するインベントリUI")]
+    [SerializeField] private GameObject _itemBox;
     [Tooltip("ItemButtonPreFab, インベントリにだすButton")]
     [SerializeField] private GameObject _itemButton;
     [Tooltip("Itemが取得可能状態にあるときに表示されるpanel")]
@@ -21,7 +23,7 @@ public class PlayerItemManagement : MonoBehaviour
 
     private void Start()
     {
-        if (_itemBoxCanvas == null || _itemButton == null || _itemPanel == null)
+        if (_itemBoxCanvas == null || _itemButton == null || _itemPanel == null || _itemBox == null)
         {
             Debug.Log("アタッチされていない箇所があります");
         }
@@ -31,7 +33,7 @@ public class PlayerItemManagement : MonoBehaviour
         if (_hitObject != null && _trrigerPrime)
         {
             //ItemBoxの子オブジェクトとしてButtonを生成する
-            var InstantiateObj = Instantiate(_itemButton, _itemBoxCanvas.transform);
+            var InstantiateObj = Instantiate(_itemButton, _itemBox.transform);
 
             //生成したButtonのOnClickにItemBaseの処理を追加している
             InstantiateObj.GetComponent<Button>().onClick.AddListener(() => _hitObject.Action());
