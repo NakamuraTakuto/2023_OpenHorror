@@ -18,7 +18,10 @@ public class PlayerMove : MonoBehaviour
     {
         _anim = GetComponent<Animator>();
         _rb = GetComponent<Rigidbody>();
+    }
 
+    private void OnAnimatorIK(int layerIndex)
+    {
         IKSetter();
     }
 
@@ -35,7 +38,7 @@ public class PlayerMove : MonoBehaviour
             //ç∂éË
             _anim.SetIKPositionWeight(AvatarIKGoal.LeftHand, 1);
             _anim.SetIKRotationWeight(AvatarIKGoal.LeftHand, 1);
-            _anim.SetIKPosition(AvatarIKGoal.RightHand, IK_handLeft.transform.position);
+            _anim.SetIKPosition(AvatarIKGoal.LeftHand, IK_handLeft.transform.position);
             //_anim.SetIKRotation(AvatarIKGoal.RightHand, IK_handLeft.transform.rotation);
         }
     }

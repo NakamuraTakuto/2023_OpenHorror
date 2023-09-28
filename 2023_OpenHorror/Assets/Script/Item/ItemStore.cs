@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 using UnityEngine.UI;
 
 public class ItemStore : MonoBehaviour
@@ -15,9 +17,15 @@ public class ItemStore : MonoBehaviour
     [SerializeField] private GameObject _shopPanel = null;
     [Tooltip("ショップのpanelにインスタンスするButton")]
     [SerializeField] private GameObject _button;
+    [SerializeField] private string _masterData = "https://script.google.com/macros/s/AKfycbybuatODf8U5GJ6v1NlIdGtglnMFFwxRhBFeWI4ywdunqlKUOS_1lu3BTjmVcvWwFqFGA/exec";
     private Dictionary<string, GameObject> _sellDic = new();
     private Dictionary<string, GameObject> _buttonDic = new();
     private TradeType _tradeType = TradeType.money;
+
+    private void Awake()
+    {
+        StartCoroutine("DataLoad");
+    }
 
     private void Start()
     {
@@ -25,7 +33,10 @@ public class ItemStore : MonoBehaviour
         {
             Debug.Log("アタッチされていないものがあります");
         }
+    }
 
+    private void ItemListUp()
+    {
         if (_sellItem != null)
         {
             for (int i = 0; i < _sellItem.Count; i++)
@@ -37,7 +48,9 @@ public class ItemStore : MonoBehaviour
                 _buttonDic.Add(_sellItem[i].GetComponent<ItemBase>().GetItemName.ToString(), button);
             }
         }
+        else { Debug.Log("リストがNullのため並べられえていません"); }
     }
+
     /// <summary>売っているアイテムが購入可能状態にあるかの判定</summary>
     private void CanSellItem()
     {
@@ -84,7 +97,39 @@ public class ItemStore : MonoBehaviour
                 break;
         }
     }
-    private void Update()
+
+    private IEnumerator DataLoad()
+    {
+        using (UnityWebRequest webRequest = UnityWebRequest.Get(_masterData))
+        {
+            yield return webRequest.SendWebRequest();
+
+            if (webRequest.result == UnityWebRequest.Result.ConnectionError || webRequest.result == UnityWebRequest.Result.ProtocolError)
+            {
+                Debug.LogError("上手くスプレッドシートを読み込めませんでした" + webRequest.error);
+            }
+            else
+            {
+                //scriptからのレスポンス取得
+                string response = webRequest.downloadHandler.text;
+                ItemDataStorage itemData = JsonUtility.FromJson<ItemDataStorage>(response);
+
+                if (_sellItem.Count == 0)
+                {
+                    _sellItem.Clear();
+                }
+                foreach (var d in itemData.Data)
+                {
+                    var name = d.Name;
+                    GameObject findItem = (GameObject)Resources.Load(name);
+                    _sellItem.Add(findItem);
+                }
+
+                ItemListUp();
+            }
+        }
+    }
+        private void Update()
     {
         //ItemStoreが開かれた時に実行する
         if (Input.GetKeyDown(KeyCode.F) && _pim != null)
@@ -121,4 +166,19 @@ public class ItemStore : MonoBehaviour
         _infomationUI.SetActive(false);
         _pim = null;
     }
+}
+
+[Serializable]
+class ItemDataStorage
+{
+    /// <summary>アイテムの番号、名前、価格情報</summary>
+    public ItemData[] Data;
+}
+
+[Serializable]
+class ItemData
+{
+    public int No;
+    public string Name;
+    public int Price;
 }
