@@ -525,7 +525,7 @@ MonoBehaviour:
   _tradeType: 1
   _itemName: Key
   _requiredItems: 000000000100000002000000
-  _needMoney: 10
+  _needMoney: 0
   _textImageUI: {fileID: 5764977388036798069}
   _message: "\u8131\u51FA\u53E3\u306E\u30AB\u30AE"
   _itemText: ItemText
