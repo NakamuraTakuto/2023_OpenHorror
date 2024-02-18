@@ -7,8 +7,8 @@ using UnityEngine.UI;
 
 public class ItemStore : MonoBehaviour
 {
-    /// <summary>PlayerItemManagement</summary>
-    private PlayerItemManagement _pim;
+    [Tooltip("PlauerにアタッチされているPlayerItemManagement")]
+    [SerializeField] private PlayerItemManagement _playerIM;
     [Tooltip("Playerが範囲内にいるときに表示する案内用のUI")]
     [SerializeField] private GameObject _infomationUI = null;
     [Tooltip("アイテムストアで売っているアイテム")]
@@ -35,7 +35,52 @@ public class ItemStore : MonoBehaviour
         }
         ItemListUp();
     }
+    private void Update()
+    {
+        //ItemStoreが開かれた時に実行する
+        if (Input.GetKeyDown(KeyCode.F) && _playerIM != null) { PanelControl(); }
 
+        //Plauerがバックを開いたときにoffにする
+        if (Input.GetKeyDown(KeyCode.B)){ _infomationUI.SetActive(false); }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.TryGetComponent(out PlayerItemManagement player))
+        {
+            //Playerが範囲内にいるときに案内用UIを表示する
+            _infomationUI.SetActive(true);
+
+            //取得したスクリプトを設定する
+            _playerIM = player;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        //案内用ＵＩの表示を止める
+        _infomationUI.SetActive(false);
+
+        //取得していたスクリプトを破棄する
+        _playerIM = null;
+    }
+
+    private void PanelControl()
+    {
+        if (_shopPanel.activeSelf)
+        {
+            _infomationUI.SetActive(true);
+            _shopPanel.SetActive(false);
+        }
+        else
+        {
+            _infomationUI.SetActive(false);
+            _shopPanel.SetActive(true);
+            CanSellItem();
+        }
+    }
+
+    /// <summary>販売するアイテムをストアに並べる</summary>
     private void ItemListUp()
     {
         if (_sellItem != null)
@@ -61,7 +106,7 @@ public class ItemStore : MonoBehaviour
             var sellItemScript = _sellItem[i].GetComponent<ItemBase>();
 
             //購入不可の状態にあるときにButtonを使用不可にする
-            if (sellItemScript.Condition(_pim.PlayerItemList,_pim.PlayerMoney))
+            if (sellItemScript.Condition(_playerIM.PlayerItemList,_playerIM.PlayerMoney))
             {
                 _buttonDic[sellItemScript.GetItemName.ToString()].GetComponent<Button>().interactable = true;
             }
@@ -81,24 +126,26 @@ public class ItemStore : MonoBehaviour
         switch (_tradeType)
         {
             case TradeType.money:
-                _pim.PlayerMoney -= item.GetNeedMoney;
+                _playerIM.PlayerMoney -= item.GetNeedMoney;
                 CanSellItem();
-                _pim.KeyProcess(item);
+                _playerIM.KeyProcess(item);
                 break;
 
             case TradeType.item:
                 for (int i = 0; i < item.GetRequiredItems.Count; i++)
                 {
-                    int x = _pim.PlayerItemList.IndexOf(item.GetRequiredItems[i].ToString());
-                    _pim.PlayerItemList.RemoveAt(x);
-                    _pim.ButtonRemove(x);
+                    int x = _playerIM.PlayerItemList.IndexOf(item.GetRequiredItems[i].ToString());
+                    _playerIM.PlayerItemList.RemoveAt(x);
+                    _playerIM.ButtonRemove(x);
                 }
-                _pim.KeyProcess(item);
+                _playerIM.KeyProcess(item);
                 CanSellItem();
                 break;
         }
     }
 
+
+    ///// <summary>スプレッドシートからアイテム情報を取ってくる処理</summary>
     //private IEnumerator DataLoad()
     //{
     //    using (UnityWebRequest webRequest = UnityWebRequest.Get(_masterData))
@@ -130,43 +177,6 @@ public class ItemStore : MonoBehaviour
     //        }
     //    }
     //}
-        private void Update()
-    {
-        //ItemStoreが開かれた時に実行する
-        if (Input.GetKeyDown(KeyCode.F) && _pim != null)
-        {
-            if (_shopPanel.activeSelf)
-            {
-                _infomationUI.SetActive(true);
-                _shopPanel.SetActive(false);
-            }
-            else
-            {
-                _infomationUI.SetActive(false);
-                _shopPanel.SetActive(true);
-                CanSellItem();
-            }
-        }
-        if (Input.GetKeyDown(KeyCode.B))
-        {
-            _infomationUI.SetActive(false);
-        }
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.TryGetComponent(out PlayerItemManagement player))
-        {
-            _infomationUI.SetActive(true);
-            _pim = player;
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        _infomationUI.SetActive(false);
-        _pim = null;
-    }
 }
 
 //[Serializable]

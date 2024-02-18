@@ -20,6 +20,7 @@ public class PlayerItemManagement : MonoBehaviour
     private bool _trrigerPrime = false;
     private ItemBase _hitItem;
     private List<GameObject> buttonList = new();
+    private PlayerController _playerController;
 
     private void Start()
     {
@@ -27,52 +28,9 @@ public class PlayerItemManagement : MonoBehaviour
         {
             Debug.Log("アタッチされていない箇所があります");
         }
+        _playerController = GetComponent<PlayerController>();
     }
-    public void KeyProcess(ItemBase _hitObject)
-    {
-        if (_hitObject != null && _trrigerPrime)
-        {
-            //ItemBoxの子オブジェクトとしてButtonを生成する
-            var InstantiateObj = Instantiate(_itemButton, _itemBox.transform);
-
-            //生成したButtonのOnClickにItemBaseの処理を追加している
-            InstantiateObj.GetComponent<Button>().onClick.AddListener(() => _hitObject.Action());
-            InstantiateObj.GetComponentInChildren<Text>().text = _hitObject.GetItemName.ToString();
-            buttonList.Add(InstantiateObj);
-            PlayerItemList.Add(_hitObject.GetItemName.ToString());
-            _hitObject.ItemOFF();
-            _itemPanel.SetActive(false);    
-        }
-    }
-
-    public void ButtonRemove(int x)
-    {
-        Destroy(buttonList[x]);
-        buttonList.RemoveAt(x);
-    }
-
-    void ItemBoxChanger()
-    {
-        if (_itemBoxCanvas.activeSelf)
-        {
-            if (_hitItem != null)
-            {
-                _itemPanel.SetActive(true);
-            }
-
-            _itemBoxCanvas.SetActive(false);
-        }
-        else
-        {
-            if (_itemPanel.activeSelf)
-            {
-                _itemPanel.SetActive(false); 
-            }
-
-            _itemBoxCanvas.SetActive(true);
-        }
-    }
-
+    
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.B))
@@ -110,6 +68,58 @@ public class PlayerItemManagement : MonoBehaviour
         if (_itemPanel.activeSelf)
         {
             _itemPanel.SetActive(false);
+        }
+    }
+
+    /// <summary>Playerのインベントリに取得したアイテムを追加</summary>
+    /// <param name="_hitObject"></param>
+    public void KeyProcess(ItemBase _hitObject)
+    {
+        if (_hitObject != null && _trrigerPrime)
+        {
+            //ItemBoxの子オブジェクトとしてButtonを生成する
+            var InstantiateObj = Instantiate(_itemButton, _itemBox.transform);
+
+            //生成したButtonのOnClickにItemBaseの処理を追加している
+            InstantiateObj.GetComponent<Button>().onClick.AddListener(() => _hitObject.Action());
+            InstantiateObj.GetComponentInChildren<Text>().text = _hitObject.GetItemName.ToString();
+            buttonList.Add(InstantiateObj);
+            PlayerItemList.Add(_hitObject.GetItemName.ToString());
+            _hitObject.ItemOFF();
+            _itemPanel.SetActive(false);    
+        }
+    }
+
+    /// <summary>インベントリにあるアイテムを消去</summary>
+    /// <param name="x"></param>
+    public void ButtonRemove(int x)
+    {
+        Destroy(buttonList[x]);
+        buttonList.RemoveAt(x);
+    }
+
+    /// <summary>アイテムインベントリUIの表示・非表示切替</summary>
+    void ItemBoxChanger()
+    {
+        if (_itemBoxCanvas.activeSelf)
+        {
+            if (_hitItem != null)
+            {
+                _itemPanel.SetActive(true);
+            }
+
+            _itemBoxCanvas.SetActive(false);
+            _playerController.CameraControl(true);
+        }
+        else
+        {
+            if (_itemPanel.activeSelf)
+            {
+                _itemPanel.SetActive(false);
+            }
+
+            _itemBoxCanvas.SetActive(true);
+            _playerController.CameraControl(false);
         }
     }
 }
