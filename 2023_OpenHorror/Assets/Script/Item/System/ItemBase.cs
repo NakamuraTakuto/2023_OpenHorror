@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,7 +15,9 @@ public enum ItemName
 {
     Iron,
     BigHunds,
-    Wood
+    Wood,
+    ‹à‘®»‚Ì” ,
+    ‰½‚©‚ÌƒJƒM
 }
 
 public abstract class ItemBase : MonoBehaviour
@@ -83,13 +86,31 @@ public abstract class ItemBase : MonoBehaviour
     public void ItemOFF() 
     {
         //Collider‚ÆRenderer‚ğFalse‚É‚µ‚Ä”»’è‚Ìæ“¾‚Æ•`‰æ‚ğ~‚ß‚Ä‚¢‚é
-        if (TryGetComponent(out Collider collider))
+        if (gameObject.TryGetComponent(out Collider collider))
         {
             collider.enabled = false; 
         }
-        if (TryGetComponent(out MeshRenderer renderer))
+        if (gameObject.TryGetComponent(out MeshRenderer renderer))
         {
+            gameObject.transform.position = Camera.main.transform.position;
             renderer.enabled = false;
+        }
+        else
+        {
+            int x = gameObject.transform.childCount;
+
+            for (int i = 0; i < x; i++)
+            {
+                var v = gameObject.transform.GetChild(i);
+
+                if (v.TryGetComponent(out MeshRenderer vM))
+                {
+                    gameObject.transform.position = Camera.main.transform.position;
+                    vM.enabled = false;
+                }
+
+            }
+            gameObject.transform.position = Camera.main.transform.position;
         }
     }
 }

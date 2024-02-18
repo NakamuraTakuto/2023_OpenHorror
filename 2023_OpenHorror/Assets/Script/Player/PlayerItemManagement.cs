@@ -72,20 +72,21 @@ public class PlayerItemManagement : MonoBehaviour
     }
 
     /// <summary>Playerのインベントリに取得したアイテムを追加</summary>
-    /// <param name="_hitObject"></param>
-    public void KeyProcess(ItemBase _hitObject)
+    /// <param name="hitObject"></param>
+    public void KeyProcess(ItemBase hitObject)
     {
-        if (_hitObject != null && _trrigerPrime)
+        if (hitObject != null && _trrigerPrime)
         {
             //ItemBoxの子オブジェクトとしてButtonを生成する
             var InstantiateObj = Instantiate(_itemButton, _itemBox.transform);
 
             //生成したButtonのOnClickにItemBaseの処理を追加している
-            InstantiateObj.GetComponent<Button>().onClick.AddListener(() => _hitObject.Action());
-            InstantiateObj.GetComponentInChildren<Text>().text = _hitObject.GetItemName.ToString();
+            InstantiateObj.GetComponent<Button>().onClick.AddListener(() => hitObject.Action());
+            InstantiateObj.GetComponentInChildren<Text>().text = hitObject.GetItemName.ToString();
             buttonList.Add(InstantiateObj);
-            PlayerItemList.Add(_hitObject.GetItemName.ToString());
-            _hitObject.ItemOFF();
+            PlayerItemList.Add(hitObject.GetItemName.ToString());
+            hitObject.ItemOFF();
+            _trrigerPrime = false;
             _itemPanel.SetActive(false);    
         }
     }

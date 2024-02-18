@@ -29,7 +29,7 @@ public class PlayerController : MonoBehaviour
         _rb = GetComponent<Rigidbody>();
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         if (_moveSwitch) { PlayerMove(); }
     }

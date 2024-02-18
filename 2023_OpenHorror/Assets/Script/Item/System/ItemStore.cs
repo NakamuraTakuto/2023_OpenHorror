@@ -21,6 +21,7 @@ public class ItemStore : MonoBehaviour
     private Dictionary<string, GameObject> _sellDic = new();
     private Dictionary<string, GameObject> _buttonDic = new();
     private TradeType _tradeType = TradeType.money;
+    private bool _isListUP = true;
 
     //private void Awake()
     //{
@@ -33,8 +34,15 @@ public class ItemStore : MonoBehaviour
         {
             Debug.Log("アタッチされていないものがあります");
         }
-        ItemListUp();
+        //ItemListUp();
     }
+
+    private void OnEnable()
+    {
+        if (_isListUP) { ItemListUp(); _isListUP = false; }
+        CanSellItem();
+    }
+
     private void Update()
     {
         //ItemStoreが開かれた時に実行する
@@ -125,19 +133,25 @@ public class ItemStore : MonoBehaviour
 
         switch (_tradeType)
         {
+            //金銭で購入するときの処理
             case TradeType.money:
+                //Playerの残高から価格文引いてアイテムを付与する
                 _playerIM.PlayerMoney -= item.GetNeedMoney;
+                //残高から引いた後に購入可能か再度判定する
                 CanSellItem();
                 _playerIM.KeyProcess(item);
                 break;
 
+            //アイテムで交換・合成する際の処理
             case TradeType.item:
+                //必要なアイテムをPlayerのインベントリから抜き取る
                 for (int i = 0; i < item.GetRequiredItems.Count; i++)
                 {
                     int x = _playerIM.PlayerItemList.IndexOf(item.GetRequiredItems[i].ToString());
                     _playerIM.PlayerItemList.RemoveAt(x);
                     _playerIM.ButtonRemove(x);
                 }
+                //Playerにアイテムを付与し、再度購入可能かの判定を行う
                 _playerIM.KeyProcess(item);
                 CanSellItem();
                 break;
